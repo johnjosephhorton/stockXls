@@ -30,12 +30,16 @@ df.by.day.by.sneaker <- df %>% group_by(Order.Date, Sneaker.Name, Brand) %>%
               release.date = Release.Date[1]
               )
 
-ggplot(data = df.by.day.by.sneaker, aes(x = Order.Date, y = sale.price)) +
+g <- ggplot(data = df.by.day.by.sneaker, aes(x = Order.Date, y = sale.price)) +
     facet_wrap(~Sneaker.Name, ncol = 5) + 
     geom_line() +
     scale_y_log10() +
     geom_line(aes(y = retail.price), colour = "red", linetype = "dashed") +
-    geom_vline(aes(xintercept = release.date), colour = "black", linetype = "dotted")
+    geom_vline(aes(xintercept = release.date), colour = "black", linetype = "dotted") +
+    theme_bw()
+
+JJHmisc::writeImage(g, "time_series", width = 12, height = 12, path = "./")
+
 
 ## Illustrates the Halloween
 ggplot(data = df.by.day.by.sneaker, aes(x = Order.Date, y = num.orders)) +
